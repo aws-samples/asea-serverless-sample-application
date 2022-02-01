@@ -13,8 +13,8 @@ updates:
 
   # Enable version updates for Docker
   - package-ecosystem: "docker"
-    # Look for a `Dockerfile` in the `root` directory
-    directory: "/"
+    # Look for a `Dockerfile` in the `sample` directory
+    directory: "/sample-application/api/"
     # Check for updates once a week
     schedule:
       interval: "weekly"
