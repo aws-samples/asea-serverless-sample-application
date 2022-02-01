@@ -12,7 +12,7 @@
     "build:web": "cd sample-application/web && npm install && npm run build"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.122.0",
+    "@aws-cdk/assert": "2.10.0",
     "@types/jest": "^26.0.10",
     "@types/node": "10.17.27",
     "aws-cdk": "1.122.0",
