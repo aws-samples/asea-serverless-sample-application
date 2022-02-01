@@ -26,6 +26,8 @@ import { ApiTier } from "./api-tier";
 import { DbTier } from "./db-tier";
 import { LoggingTools } from "./logging-tools";
 
+import * as fs from "fs";
+
 export interface SEASampleAppStackProps extends cdk.StackProps {
   readonly vpcId: string;
   readonly appSubnetIds: Array<string>;
@@ -49,6 +51,11 @@ export class SEASampleAppStack extends cdk.Stack {
     const targetVpc = ec2.Vpc.fromLookup(this, "vpc-lookup", {
       vpcId: props.vpcId,
     });
+
+    if (!fs.existsSync("cdk.context.json")) {
+      console.log("Check that the cdk.context.json file exists and has been generated and run again");
+      return;
+    }
 
     const loggingTools = new LoggingTools(this, {
       prefix: props.prefix,

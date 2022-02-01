@@ -201,7 +201,7 @@ export class ApiTier {
       endpointConfiguration: {
         types: [apigateway.EndpointType.REGIONAL],
       },
-      cloudWatchRole: false,
+      cloudWatchRole: true,
       deployOptions: {
         loggingLevel: apigateway.MethodLoggingLevel.INFO,
         dataTraceEnabled: true,
