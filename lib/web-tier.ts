@@ -33,6 +33,7 @@ export class WebTier {
     this.bucket = new s3.Bucket(scope, `${props.prefix}-web-bucket`, {
       encryption: s3.BucketEncryption.S3_MANAGED,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
       serverAccessLogsBucket: props.loggingBucket,
       serverAccessLogsPrefix: this.loggingPrefix,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL
