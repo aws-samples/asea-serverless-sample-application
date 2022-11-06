@@ -15,10 +15,10 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-import * as cdk from "@aws-cdk/core";
-import * as secrets from "@aws-cdk/aws-secretsmanager";
-import * as rds from "@aws-cdk/aws-rds";
-import * as ec2 from "@aws-cdk/aws-ec2";
+import * as cdk from "aws-cdk-lib";
+import * as secrets from "aws-cdk-lib/aws-secretsmanager";
+import * as rds from "aws-cdk-lib/aws-rds";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
 
 export interface DbTierProps {
   readonly vpc: ec2.IVpc;
@@ -58,7 +58,7 @@ export class DbTier {
 
     this.dbCluster = new rds.DatabaseCluster(scope, `${props.prefix}-db`, {
       engine: rds.DatabaseClusterEngine.auroraPostgres({
-        version: rds.AuroraPostgresEngineVersion.VER_12_6,
+        version: rds.AuroraPostgresEngineVersion.VER_12_9,
       }),
       credentials: rds.Credentials.fromSecret(this.secret), // Optional - will default to 'admin' username and generated password
       instanceProps: {
