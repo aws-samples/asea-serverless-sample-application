@@ -15,9 +15,9 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-import * as cdk from "@aws-cdk/core";
-import * as s3 from "@aws-cdk/aws-s3";
-import * as s3deployment from "@aws-cdk/aws-s3-deployment";
+import * as cdk from "aws-cdk-lib";
+import * as s3 from "aws-cdk-lib/aws-s3";
+import * as s3deployment from "aws-cdk-lib/aws-s3-deployment";
 
 export interface WebTierProps {
   readonly prefix: string;

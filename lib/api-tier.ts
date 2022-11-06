@@ -15,16 +15,17 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-import * as cdk from "@aws-cdk/core";
-import * as iam from "@aws-cdk/aws-iam";
-import * as apigateway from "@aws-cdk/aws-apigateway";
-import * as elbv2 from "@aws-cdk/aws-elasticloadbalancingv2";
-import * as secrets from "@aws-cdk/aws-secretsmanager";
-import * as waf from "@aws-cdk/aws-wafv2";
-import * as ecr_assets from "@aws-cdk/aws-ecr-assets";
-import * as ecs from "@aws-cdk/aws-ecs";
-import * as ec2 from "@aws-cdk/aws-ec2";
-import * as s3 from "@aws-cdk/aws-s3";
+import * as cdk from "aws-cdk-lib";
+import { IDependable } from 'constructs';
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as apigateway from "aws-cdk-lib/aws-apigateway";
+import * as elbv2 from "aws-cdk-lib/aws-elasticloadbalancingv2";
+import * as secrets from "aws-cdk-lib/aws-secretsmanager";
+import * as waf from "aws-cdk-lib/aws-wafv2";
+import * as ecr_assets from "aws-cdk-lib/aws-ecr-assets";
+import * as ecs from "aws-cdk-lib/aws-ecs";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as s3 from "aws-cdk-lib/aws-s3";
 import * as path from "path";
 
 
@@ -52,8 +53,7 @@ export class ApiTier {
     // Create an ECS cluster
     const cluster = new ecs.Cluster(scope, `${props.prefix}Cluster`, {
       vpc: props.vpc,
-      containerInsights: true,
-      capacityProviders: ["FARGATE"],
+      containerInsights: true
     });
 
     //ECS Task
@@ -127,6 +127,7 @@ export class ApiTier {
 
     for (const subnetId of props.appSubnetIds) {        
         const subnetCidr = this.getSubnetIPv4FromContext(scope, subnetId);
+      
         serviceSecurityGroup.addIngressRule(
           ec2.Peer.ipv4(subnetCidr),
           ec2.Port.tcp(this.servicePort),
@@ -327,12 +328,13 @@ export class ApiTier {
     wafAssociation.node.addDependency(this.api);
   }
 
-  addDependencyToService(node:cdk.IDependable) {
+  addDependencyToService(node:IDependable) {
       this.fargateService.node.addDependency(node);
   }
 
   getSubnetIPv4FromContext(scope: cdk.Stack, subnetId: string) : string {
     const ctx = JSON.parse(process.env.CDK_CONTEXT_JSON);
+    
     for (let key of Object.keys(ctx)) {      
       if (Object.prototype.hasOwnProperty.call(ctx[key], "subnetGroups")) {       
         const subnetGroups = ctx[key]["subnetGroups"];

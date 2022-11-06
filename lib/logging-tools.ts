@@ -15,9 +15,10 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-import * as cdk from "@aws-cdk/core";
-import * as glue from "@aws-cdk/aws-glue";
-import * as s3 from "@aws-cdk/aws-s3";
+import * as cdk from "aws-cdk-lib";
+import * as glue from "@aws-cdk/aws-glue-alpha";
+import * as glueStable from "aws-cdk-lib/aws-glue";
+import * as s3 from "aws-cdk-lib/aws-s3";
 
 export interface LoggingProps {
   readonly prefix: string;
@@ -56,7 +57,7 @@ export class LoggingTools {
   }
 
   configureS3Logging(scope: cdk.Stack, prefix: string, tableName: string): void {
-    const s3_access_logs_table = new glue.CfnTable(scope, prefix, {
+    const s3_access_logs_table = new glueStable.CfnTable(scope, prefix, {
       catalogId: scope.account,
       databaseName: this.glueDatabase.databaseName,
       tableInput: {
@@ -182,7 +183,7 @@ export class LoggingTools {
   }
 
   configureNLBLogging(scope: cdk.Stack, prefix: string, tableName: string): void {
-    const nlb_table = new glue.CfnTable(scope, prefix, {
+    const nlb_table = new glueStable.CfnTable(scope, prefix, {
       catalogId: scope.account,
       databaseName: this.glueDatabase.databaseName,
       tableInput: {
@@ -310,7 +311,7 @@ export class LoggingTools {
     prefix: string,
     tableName: string
   ): void {
-    const cloudfront_table = new glue.CfnTable(scope, prefix, {
+    const cloudfront_table = new glueStable.CfnTable(scope, prefix, {
       catalogId: scope.account,
       databaseName: this.glueDatabase.databaseName,
       tableInput: {

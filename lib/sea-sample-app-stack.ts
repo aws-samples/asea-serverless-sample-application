@@ -15,11 +15,12 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-import * as cdk from "@aws-cdk/core";
-import * as cloudfront from "@aws-cdk/aws-cloudfront";
-import * as origins from "@aws-cdk/aws-cloudfront-origins";
-import * as ec2 from "@aws-cdk/aws-ec2";
-import * as waf from "@aws-cdk/aws-wafv2";
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
+import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
+import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as waf from "aws-cdk-lib/aws-wafv2";
 
 import { WebTier } from "./web-tier";
 import { ApiTier } from "./api-tier";
@@ -42,7 +43,7 @@ export interface SEASampleAppStackProps extends cdk.StackProps {
 
 export class SEASampleAppStack extends cdk.Stack {
   constructor(
-    scope: cdk.Construct,
+    scope: Construct,
     id: string,
     props?: SEASampleAppStackProps
   ) {
