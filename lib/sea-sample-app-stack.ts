@@ -39,6 +39,9 @@ export interface SEASampleAppStackProps extends cdk.StackProps {
   readonly prefix: string;
   readonly staticSiteBuildPath: string;
   readonly apiContainerPath: string;
+  readonly albListenerArn: string;
+  readonly webSecurityGroup: string;
+  readonly appDnsName: string;
 }
 
 export class SEASampleAppStack extends cdk.Stack {
@@ -77,7 +80,10 @@ export class SEASampleAppStack extends cdk.Stack {
       dbSecret: dbTier.secret,
       prefix: props.prefix,
       apiContainerPath: props.apiContainerPath,
-      loggingBucket: loggingTools.loggingBucket
+      loggingBucket: loggingTools.loggingBucket,
+      albSecurityGroup: props.webSecurityGroup,
+      albListenerArn: props.albListenerArn,
+      appDnsName: props.appDnsName
     });
 
     apiTier.addDependencyToService(dbTier.dbCluster);

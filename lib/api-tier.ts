@@ -38,6 +38,9 @@ export interface ApiTierProps {
   readonly prefix: string;
   readonly apiContainerPath: string;
   readonly loggingBucket: s3.Bucket;
+  readonly albSecurityGroup: string;
+  readonly albListenerArn: string;
+  readonly appDnsName: string;
 }
 
 export class ApiTier {
@@ -152,7 +155,8 @@ export class ApiTier {
           ec2.SecurityGroup.fromSecurityGroupId(
             scope,
             "AppSecurityGroup",
-            props.appSecurityGroup
+            props.appSecurityGroup,
+            {mutable: false}
           ),
           serviceSecurityGroup,
         ],
@@ -192,6 +196,43 @@ export class ApiTier {
         targets: [this.fargateService],
       }
     );
+
+    const albsg = ec2.SecurityGroup.fromSecurityGroupId(
+      scope, 
+      "AlbSecurityGroup", 
+      props.albSecurityGroup, {mutable: false});
+
+    const albListener = elbv2.ApplicationListener.fromApplicationListenerAttributes(
+      scope,
+      `${props.prefix}ALBListener`, 
+      { listenerArn: props.albListenerArn,
+        securityGroup: albsg,
+        defaultPort: 443
+      }
+    );
+
+    const targetGroup = new elbv2.ApplicationTargetGroup(
+      scope, 
+      `${props.prefix}ALBServiceTarget`, 
+      {
+        vpc: props.vpc,
+        port: 443,
+        protocol: elbv2.ApplicationProtocol.HTTP,
+        targets: [this.fargateService]
+      }
+    );
+
+    albListener.addTargetGroups(
+      `${props.prefix}ALBTargetGroup`, 
+      {
+        targetGroups: [targetGroup],
+        priority: 10,
+        conditions: [
+          elbv2.ListenerCondition.hostHeaders([props.appDnsName]),
+        ],
+      }
+    );
+   
 
     const link = new apigateway.VpcLink(scope, `${props.prefix}Link`, {
       targets: [loadbalancer],

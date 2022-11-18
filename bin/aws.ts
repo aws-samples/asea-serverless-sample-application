@@ -44,4 +44,7 @@ new SEASampleAppStack(app, `${Prefix}Stack`, {
   dbName: "sampleappdb",
   staticSiteBuildPath: "sample-application/web/dist",
   apiContainerPath: "../sample-application/api",
+  webSecurityGroup: "sg-",
+  albListenerArn: "arn:aws:elasticloadbalancing:ca-central-1:",
+  appDnsName: "example.com"
 });

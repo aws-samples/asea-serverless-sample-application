@@ -30,8 +30,17 @@ console.log('listen port 5000');
 
 //create api
 app.get('/api/hello', (req,res)=>{
+    const via = req.get("via") || "";
     res.send(JSON.stringify({
-        message: "hello world"
+        message: `Bonjour!`,
+        source: via.includes("CloudFront") ? "CloudFront" : "ALB de périmètre"
+    }));
+});
+
+//create healthcheck
+app.get('/healthcheck', (req,res)=>{
+    res.send(JSON.stringify({
+        message: "OK"
     }));
 });
 
