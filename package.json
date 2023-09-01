@@ -34,7 +34,7 @@
     "@aws-cdk/aws-elasticloadbalancingv2": "1.142.0",
     "@aws-cdk/aws-elasticloadbalancingv2-targets": "1.142.0",
     "@aws-cdk/aws-glue": "1.142.0",
-    "@aws-cdk/aws-iam": "1.142.0",
+    "@aws-cdk/aws-iam": "1.204.0",
     "@aws-cdk/aws-rds": "1.142.0",
     "@aws-cdk/aws-s3": "1.142.0",
     "@aws-cdk/aws-s3-deployment": "1.142.0",
